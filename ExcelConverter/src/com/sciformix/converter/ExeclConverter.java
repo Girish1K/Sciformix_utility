@@ -146,26 +146,44 @@ public class ExeclConverter {
 		}
 	}
 	
+public static boolean checkNoOfArgs(String args[]){
+	boolean falg=true;
+	// System.out.println(args.length);
+	if(args.length==0){
+		System.out.println("Source input file can not found:");
+		falg=false;
+	}
+	if(args.length==1){
+		System.out.println("Destination file path can not found:");
+		falg=false;
+	}
+		
+	return falg;
+}
+	
 	public static void main(String[] args){
-		File inputFile=new File(args[0]);
-		String outputPath=args[1];
-		if(inputFile.isFile()){
-			String fileName=inputFile.getName();
-			String extension=fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
-			File outputFile=new File(outputPath+"\\"+fileName.substring(0, fileName.lastIndexOf(".")+1)+"csv");
-			System.out.println("extension is -->> "+extension+"\nInput file-->> "+inputFile+"\nOutput file-->> "+outputFile);
-			switch(extension){
-			case "xlsx":
+		if(checkNoOfArgs(args)){
+			
+			File inputFile=new File(args[0]);
+			if(inputFile.isFile()){
+				String outputPath=args[1];		
+				String fileName=inputFile.getName();
+				String extension=fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
+				File outputFile=new File(outputPath+"\\"+fileName.substring(0, fileName.lastIndexOf(".")+1)+"csv");
+				System.out.println("extension is -->> "+extension+"\nInput file-->> "+inputFile+"\nOutput file-->> "+outputFile);
+				switch(extension){
+				case "xlsx":
 					convertXlsxToCsv(inputFile, outputFile);
 					break;
-			case "xls":
+				case "xls":
 					convertXlsToCsv(inputFile, outputFile);
 					break;
 				default:
 					System.out.println("Invalid input file: ");
-		 			break;
-			}
-		}else
-			System.out.println("Invalid input file: ");
+					break;
+				}	
+			}else
+				System.out.println("Invalid input file: ");
+		}
 	}
 }
